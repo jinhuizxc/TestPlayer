@@ -14,6 +14,7 @@ import android.widget.Toast;
 public class MusicService extends Service implements Runnable,
 		OnCompletionListener {
 
+	private static final String TAG = "MusicService";
 	boolean isRun = true;
 
 	// 控制音频、视频的播放
@@ -115,6 +116,7 @@ public class MusicService extends Service implements Runnable,
 	 */
 	private void nextSong() {
 		songIndex = (songIndex + 1) % AllMusicInfo.musicList.size();
+		Log.e(TAG, "AllMusicInfo.musicList.size() = " + AllMusicInfo.musicList.size());
 		initSong();
 	}
 
@@ -131,7 +133,13 @@ public class MusicService extends Service implements Runnable,
 		try {
 			player.reset();
 			// 从sdcard上载入音频文件
-			player.setDataSource(AllMusicInfo.musicList.get(songIndex).getPath());
+//			String path = AllMusicInfo.musicList.get(songIndex).getPath();
+//			Log.e(TAG, "path = " + path);
+			String url = "https://lcadream.oss-cn-shanghai.aliyuncs.com/yinpin/%E4%B8%83%E8%99%9E.mp3";
+
+			// E/MusicService: path = /storage/emulated/0/netease/cloudmusic/Music/Angela Ammons - Always Getting Over You.mp3
+			player.setDataSource(url);
+
 			player.prepare();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
